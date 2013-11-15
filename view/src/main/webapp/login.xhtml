@@ -1,0 +1,52 @@
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+</h:head>
+<h:body value="javascript:void(0)" onload="PF('dlg').show()">
+    <h:form id="form">
+
+        <p:growl id="growl" showDetail="true" life="3000"/>
+
+        <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false" closable="false">
+
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputLabel for="username" value="Username:"/>
+                <p:inputText value="#{login.username}"
+                             id="username" label="username"/>
+                <h:outputLabel for="username" value=""/>
+
+                <h:outputLabel for="password" value="Password:"/>
+                <p:password value="#{login.password}"
+                             id="password" label="password"/>
+                <h:outputLabel for="username" value=""/>
+
+                <h:outputLabel for="url" value="URL:"/>
+                <p:inputText value="#{login.url}"
+                             id="url" required="true" label="URL"/>
+                <p:inputText value="#{login.port}"
+                             id="d" required="true" label="URL" maxlength="4" size="1"/>
+
+
+                <p:commandButton id="loginButton" value="Login" update="growl"
+                              action="index?faces-redirect=true" oncomplete="handleLoginRequest(xhr, status, args)"/>
+
+            </h:panelGrid>
+
+        </p:dialog>
+    </h:form>
+
+    <script type="text/javascript">
+        function handleLoginRequest(xhr, status, args) {
+            if (args.validationFailed || !args.loggedIn) {
+                PF('dlg').jq.effect("shake", { times: 5 }, 100);
+            }
+            else {
+                PF('dlg').hide();
+                $('#loginLink').fadeOut();
+            }
+        }
+    </script>
+
+</h:body>
+</html>
